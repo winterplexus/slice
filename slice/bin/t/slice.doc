@@ -1,0 +1,38 @@
+
+slice                                                                      slice
+
+NAME
+
+  slice - slice text files into smaller, equal size text files
+
+SYNOPSIS
+
+  slice (options)
+
+DESCRIPTION
+
+  slice is designed to slice a text file into smaller text files based on the
+  chunk size (which is a unit of 1024 bytes).
+
+FLAGS
+
+  -i  [input file name]
+  -o  [output file path]
+  -c  [chunk size (units of 1024 bytes)]
+  -s  show file names
+  -v  display version
+
+  Each smaller text file sliced from the input file will have the original file
+  name plus a period and part number (4 digits in length with leading zeroes).
+
+  If output file path is not specified then input file path is used in place of
+  output file path.
+
+  If chunk size is not specified then the default chunk size is 1000 (units of
+  1024 bytes). This means that each smaller text file sliced from the input file
+  will not exceed 1,024,000 bytes.
+
+NOTES
+
+  Copyright (c) 2020 Code Construct Systems (CCS)
+
