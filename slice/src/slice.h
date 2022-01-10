@@ -4,7 +4,7 @@
 **  slice - slice file functions
 **  ----------------------------
 **
-**  copyright (c) 2020 Code Construct Systems (CCS)
+**  copyright (c) 2020-2022 Code Construct Systems (CCS)
 */
 #ifndef __SLICE_H
 #define __SLICE_H
@@ -15,9 +15,19 @@
 ** Default chunk size
 */
 #ifndef _DEFAULT_CHUNK_SIZE
-#define _DEFAULT_CHUNK_SIZE 1000
+#define _DEFAULT_CHUNK_SIZE 4096
 #else
 #error  _DEFAULT_CHUNK_SIZE is defined in another include file
+#endif
+
+
+/*
+** Default chunk count
+*/
+#ifndef _DEFAULT_CHUNK_COUNT
+#define _DEFAULT_CHUNK_COUNT 1024
+#else
+#error  _DEFAULT_CHUNK_COUNT is defined in another include file
 #endif
 
 /*

@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "slice.resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -27,7 +27,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "slice.resource.h\0"
 END
 
 2 TEXTINCLUDE 
@@ -61,8 +61,8 @@ IDI_ICON1               ICON                    "resource.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,0
- PRODUCTVERSION 1,0,0,0
+ FILEVERSION 1,1,0,0
+ PRODUCTVERSION 1,1,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -79,12 +79,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Code Construct Systems (CCS)"
             VALUE "FileDescription", "Slice text file utility."
-            VALUE "FileVersion", "1.0.0.0"
+            VALUE "FileVersion", "1.1.0.0"
             VALUE "InternalName", "slice"
-            VALUE "LegalCopyright", "Copyright (C) 2020 Code Construct Systems (CCS)"
+            VALUE "LegalCopyright", "Copyright (C) 2020-2022 Code Construct Systems (CCS)"
             VALUE "OriginalFilename", "slice.exe"
             VALUE "ProductName", "slice"
-            VALUE "ProductVersion", "1.0.0.0"
+            VALUE "ProductVersion", "1.1.0.0"
         END
     END
     BLOCK "VarFileInfo"

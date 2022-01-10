@@ -4,7 +4,7 @@
 **  slice - modules
 **  ---------------
 **
-**  copyright (c) 2020 Code Construct Systems (CCS)
+**  copyright (c) 2020-2022 Code Construct Systems (CCS)
 */
 #ifndef __MODULES_H
 #define __MODULES_H
@@ -14,6 +14,8 @@
 */
 #include <assert.h>
 #include <errno.h>
+#include <fcntl.h>
+#include <math.h>
 #include <setjmp.h>
 #include <signal.h>
 #include <stdarg.h>
@@ -21,14 +23,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-
-/*
-** Windows C header files
-*/
-#ifdef _WIN32
-#include <fcntl.h>
-#include <io.h>
-#endif
+#include <sys/types.h>
+#include <sys/stat.h>
 
 /*
 ** Local modules header files

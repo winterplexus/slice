@@ -4,7 +4,7 @@
 **  slice - portable functions
 **  --------------------------
 **
-**  copyright (c) 1996-2020 Code Construct Systems (CCS)
+**  copyright (c) 2020-2022 Code Construct Systems (CCS)
 */
 #include "modules.h"
 

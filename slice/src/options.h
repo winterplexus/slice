@@ -4,7 +4,7 @@
 **  slice - command line options
 **  ----------------------------
 **
-**  copyright (c) 2020 Code Construct Systems (CCS)
+**  copyright (c) 2020-2022 Code Construct Systems (CCS))
 */
 #ifndef __OPTIONS_H
 #define __OPTIONS_H
@@ -15,7 +15,8 @@
 typedef struct options_s {
         char input_file_name[_MAX_FILE_NAME_SIZE + 1];
         char output_file_path[_MAX_FILE_NAME_SIZE + 1];
-        size_t chunk_size;
+        size_t chunks_count;
+        size_t parts_count;
         bool_c_t show_file_names;
 } options_t;
 

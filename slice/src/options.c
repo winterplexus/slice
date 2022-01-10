@@ -4,7 +4,7 @@
 **  slice - command line options
 **  ----------------------------
 **
-**  copyright (c) 2020 Code Construct Systems (CCS)
+**  copyright (c) 2020-2022 Code Construct Systems (CCS)
 */
 #include "modules.h"
 
@@ -13,9 +13,9 @@
 */
 static void GetOptionValues(int, char **, options_t *);
 static void SetDefaultOptions(options_t *);
-static void StoreInputFileName(int, string_c_t[], int, string_c_t, size_t);
-static void StoreOutputFileName(int, string_c_t[], int, string_c_t, size_t);
-static void StoreChunkSize(int argc, string_c_t[], int, size_t *);
+static void StoreStringOption(int, string_c_t[], int, string_c_t, size_t);
+static void StoreChunksCount(int argc, string_c_t[], int, size_t *);
+static void StorePartsCount(int argc, string_c_t[], int, size_t *);
 static long ConvertStringToLong(string_c_t);
 static void DisplayVersion(int);
 static void DisplayUsage(void);
@@ -50,14 +50,20 @@ static void GetOptionValues(int argc, char **argv, options_t *opts) {
     ** Process each command line argument
     */
     for (i = 1; i < argc; i++) {
-        if (strcmp(argv[i], "-i") == 0) {
-            StoreInputFileName(argc, argv, ++i, opts->input_file_name, sizeof(opts->input_file_name) - 1);
+        if (strcmp(argv[i], "-h") == 0) {
+             DisplayUsage();
+        }
+        else if (strcmp(argv[i], "-i") == 0) {
+            StoreStringOption(argc, argv, ++i, opts->input_file_name, sizeof(opts->input_file_name) - 1);
         }
         else if (strcmp(argv[i], "-o") == 0) {
-            StoreOutputFileName(argc, argv, ++i, opts->output_file_path, sizeof(opts->output_file_path) - 1);
+            StoreStringOption(argc, argv, ++i, opts->output_file_path, sizeof(opts->output_file_path) - 1);
         }
         else if (strcmp(argv[i], "-c") == 0) {
-            StoreChunkSize(argc, argv, ++i, &opts->chunk_size);
+            StoreChunksCount(argc, argv, ++i, &opts->chunks_count);
+        }
+        else if (strcmp(argv[i], "-p") == 0) {
+            StorePartsCount(argc, argv, ++i, &opts->parts_count);
         }
         else if (strcmp(argv[i], "-s") == 0) {
             opts->show_file_names = TRUE;
@@ -71,11 +77,19 @@ static void GetOptionValues(int argc, char **argv, options_t *opts) {
     }
 
     /*
-    ** Set chunk size (if required)
+    ** Set chunks count (if required)
     */
-    if (opts->chunk_size < 1) {
-        opts->chunk_size = _DEFAULT_CHUNK_SIZE;
-        printf("using default chunk size: %ld (units of 1024 bytes)\n", (long)opts->chunk_size);
+    if (opts->chunks_count < 1 && opts->parts_count < 1) {
+        opts->chunks_count = _DEFAULT_CHUNK_SIZE;
+        printf("information-> using default chunks count: %ld (units of %d bytes)\n", (long)opts->chunks_count, _DEFAULT_CHUNK_SIZE);
+    }
+
+    /*
+    ** Set parts count to zero if chunks count is not zero
+    */
+    else if (opts->chunks_count && opts->parts_count) {
+        opts->parts_count = 0L;
+        printf("warning-> using chunks count over parts count: %ld\n", (long)opts->chunks_count);
     }
 }
 
@@ -85,41 +99,41 @@ static void GetOptionValues(int argc, char **argv, options_t *opts) {
 static void SetDefaultOptions(options_t *opts) {
     memset(opts->input_file_name, 0, _MAX_FILE_NAME_SIZE + 1);
     memset(opts->output_file_path, 0, _MAX_FILE_NAME_SIZE + 1);
-    opts->chunk_size = 0L;
+    opts->chunks_count = 0L;
+    opts->parts_count = 0L;
     opts->show_file_names = FALSE;
 }
 
 /*
-** Store input file name
+** Store string option
 */
-static void StoreInputFileName(int argc, string_c_t argv[], int i, string_c_t argument, size_t size) {
+static void StoreStringOption(int argc, string_c_t argv[], int i, string_c_t argument, size_t size) {
     if (argc < i || !argv[i]) {
         DisplayUsage();
     }
     assert(argv[i]);
     strcpy_p(argument, size, argv[i], size);
 }
-
 /*
-** Store output file name
+** Store chunks count
 */
-static void StoreOutputFileName(int argc, string_c_t argv[], int i, string_c_t argument, size_t size) {
+static void StoreChunksCount(int argc, string_c_t argv[], int i, size_t *chunks_count) {
     if (argc < i || !argv[i]) {
         DisplayUsage();
     }
     assert(argv[i]);
-    strcpy_p(argument, size, argv[i], size);
+    *chunks_count = (size_t)ConvertStringToLong(argv[i]);
 }
 
 /*
-** Store chunk size
+** Store parts count
 */
-static void StoreChunkSize(int argc, string_c_t argv[], int i, size_t *chunk_size) {
+static void StorePartsCount(int argc, string_c_t argv[], int i, size_t *counts_count) {
     if (argc < i || !argv[i]) {
         DisplayUsage();
     }
     assert(argv[i]);
-    *chunk_size = (size_t)ConvertStringToLong(argv[i]);
+    *counts_count = (size_t)ConvertStringToLong(argv[i]);
 }
 
 /*
@@ -130,7 +144,7 @@ static long ConvertStringToLong(string_c_t value) {
 
     long chunk_size = strtol(value, &end, 10);
     if (errno == ERANGE) {
-        printf("error-> chunk size value is out of range");
+        printf("error-> unable to convert string value to an integer value");
     }
     return (chunk_size);
 }
@@ -155,12 +169,14 @@ static void DisplayVersion(int argc) {
 */
 static void DisplayUsage(void) {
     printf("usage: %s (options)\n\n", _VERSION_PRODUCT);
-    printf("where (options) include:\n");
-    printf("  -i  [input file name]\n");
-    printf("  -o  [output file path](default is input file name)\n");
-    printf("  -c  [chunk size (units of 1024 bytes)]\n");
-    printf("  -s  show file names\n");
-    printf("  -v  display version\n");
+    printf("where (options) include:\n\n");
+    printf("-i  [input file name]\n");
+    printf("-o  [output file path]\n");
+    printf("-c  [slice into n chunks (each chunk is %d bytes]\n", _DEFAULT_CHUNK_SIZE);
+    printf("-p  [slice into n parts]\n");
+    printf("-s  show file names\n");
+    printf("-h  display usage\n");
+    printf("-v  display version\n");
 
     /*
     ** Exit application

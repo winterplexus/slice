@@ -4,16 +4,16 @@
 #                                                                              #
 # slice utility                                                                #
 #                                                                              #
-# version 1.0.0 release 1                                                      #
+# version 1.1.0 release 1                                                      #
 #                                                                              #
-# copyright (c) 2020 Code Construct Systems (CCS) [CONFIDENTIAL]               #
+# copyright (c) 2020-2022 Code Construct Systems (CCS) [CONFIDENTIAL]          #
 #                                                                              #
 ################################################################################
 
 # Open Systems OS/OE port
 
 #
-# Slice text file utility application name
+# slice utility application name
 #
 TARGET = slice
 
@@ -26,13 +26,14 @@ INSTALLATION = ../bin
 # C++ compiler flags
 #
 CC = gcc
-CFLAGS = -c
+CFLAGS = -c -std=c99
 
 #
 # C compiler definitions flags
 #
 CDEFINITIONS = \
-	-D_ARCH_64
+	-D_ARCH_64 \
+	-D_POSIX_SOURCE
 
 #
 # C compiler debug and optimize flags
@@ -58,7 +59,7 @@ COPTIMIZE = -O3 -fno-strict-overflow
 # C compiler warnings flags
 #
 CWARNINGS = \
-#	-Werror \
+	-Werror \
 	-Wall \
 	-Wextra \
 	-Wwrite-strings \
@@ -86,11 +87,11 @@ OBJECTS = \
 all: $(TARGET)
 
 #
-# Rule for creating slice text file utility application file
+# Rule for creating slice utility application file
 #
 $(TARGET): $(OBJECTS)
 	@echo "building application: $@"
-	@$(CC) $(OBJECTS) -o $@
+	@$(CC) $(OBJECTS) -lm -o $@
 
 #
 # Rule for creating object files

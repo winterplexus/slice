@@ -4,7 +4,7 @@
 **  slice - slice text file utility functions
 **  -----------------------------------------
 **
-**  copyright (c) 2020 Code Construct Systems (CCS)
+**  copyright (c) 2020-2022 Code Construct Systems (CCS)
 */
 #include "modules.h"
 
@@ -28,16 +28,18 @@ static char *input_file_chunk_buffer;
 */
 static void SetSystemSignals(void);
 static void InterruptHandler(int);
-static void ProcessFile(options_t *opts);
+static void ProcessFile(options_t *, size_t);
+static size_t GetPartFileSize(options_t *);
 
 /*
 ** Slice text file utility driver
 */
 int main(int argc, string_c_t argv[]) {
     options_t opts;
+    size_t slice_file_size = 0L;
 
     /*
-    ** Set system signals and if stack was unwound, free file chunk buffer and exit
+    ** Set system signals and if stack was unwound, close input file and free input file chunk buffer
     */
     SetSystemSignals();
     if (setjmp(unwind_buffer_sp) != 0) {
@@ -52,17 +54,29 @@ int main(int argc, string_c_t argv[]) {
     GetOptions(argc, argv, &opts);
 
     /*
+    ** Calculate slice file size
+    */
+    if (opts.chunks_count) {
+        slice_file_size = opts.chunks_count * _DEFAULT_CHUNK_SIZE;
+        printf("chunk size = %zd\n", slice_file_size);
+    }
+    else {
+        slice_file_size = GetPartFileSize(&opts);
+        printf("part size = %zd\n", slice_file_size);
+    }
+
+    /*
     ** Process file
     */
-    ProcessFile(&opts);
+    ProcessFile(&opts, slice_file_size);
 
     /*
     ** Close input file
     */
     fclose_p(input_file);
-    
+
     /*
-    ** Free allocated memory for file chunk buffer
+    ** Free allocated memory for input file chunk buffer
     */
     free(input_file_chunk_buffer);
 
@@ -91,8 +105,8 @@ static void InterruptHandler(int signal_number) {
 /*
 ** Process file
 */
-static void ProcessFile(options_t *opts) {
-    size_t input_file_chunk_buffer_size = opts->chunk_size * 1024, bytes_read, part = 0;
+static void ProcessFile(options_t *opts, size_t slice_file_size) {
+    size_t bytes_read, part = 0;
     char output_file_name[_MAX_FILE_NAME_SIZE + 1];
     FILE *output_file;
     string_c_t base_name = NULL;
@@ -109,7 +123,7 @@ static void ProcessFile(options_t *opts) {
     /*
     ** Allocate memory for file chunk buffer
     */
-    if ((input_file_chunk_buffer = (char *)malloc(input_file_chunk_buffer_size + 1)) == NULL) {
+    if ((input_file_chunk_buffer = (char *)malloc(slice_file_size + 1)) == NULL) {
         printf("error-> memory allocation failed (%d)\n", errno);
         EXIT_APPLICATION(EXIT_FAILURE);
     }
@@ -118,12 +132,12 @@ static void ProcessFile(options_t *opts) {
     ** Process each byte from input file until either I/O error or when at end of file (EOF)
     */
     for (;;) {
-        memset(input_file_chunk_buffer, 0, input_file_chunk_buffer_size);
+        memset(input_file_chunk_buffer, 0, slice_file_size);
 
         /*
         ** Read chunk of bytes from input file
         */
-        bytes_read = fread(input_file_chunk_buffer, 1, input_file_chunk_buffer_size, input_file);
+        bytes_read = fread(input_file_chunk_buffer, 1, slice_file_size, input_file);
         if (bytes_read > 0) {
             memset(output_file_name, 0, sizeof(output_file_name));
 
@@ -132,10 +146,10 @@ static void ProcessFile(options_t *opts) {
             */
             if (strlen(opts->output_file_path)) {
                 basename_p(opts->input_file_name, &base_name);
-                strfmt_p(output_file_name, _MAX_FILE_NAME_SIZE, _BASE_NAME_PART_NUMBER_FORMAT, opts->output_file_path, base_name, ++part);
+                strfmt_p(output_file_name, _MAX_FILE_NAME_SIZE, (string_c_t)_BASE_NAME_PART_NUMBER_FORMAT, opts->output_file_path, base_name, ++part);
             }
             else {
-                strfmt_p(output_file_name, _MAX_FILE_NAME_SIZE, _FILE_NAME_PART_NUMBER_FORMAT, opts->input_file_name, ++part);
+                strfmt_p(output_file_name, _MAX_FILE_NAME_SIZE, (string_c_t)_FILE_NAME_PART_NUMBER_FORMAT, opts->input_file_name, ++part);
             }
 
             /*
@@ -158,23 +172,59 @@ static void ProcessFile(options_t *opts) {
             ** Write chunk of bytes to output file and close output file
             */
             fwrite(input_file_chunk_buffer, 1, bytes_read, output_file);
-            
+
             /*
             ** Check for output file write error
             */
             if (ferror(output_file)) {
                 printf("error-> unable to write to output file: %s (%d)\n", output_file_name, errno);
-                fclose(output_file); 
+                fclose(output_file);
                 EXIT_APPLICATION(EXIT_FAILURE);
             }
-    
+
             /*
             ** Close output file
             */
-            fclose(output_file);    
+            fclose(output_file);
         }
         else {
             break;
         }
     }
+}
+
+/*
+** Get part slice file size
+*/
+static size_t GetPartFileSize(options_t *opts) {
+    struct stat file_info;
+    double estimate_size;
+    size_t part_slice_file_size;
+
+    /*
+    ** Exit if parts count is less than one
+    */
+    if (opts->parts_count < 1) {
+        printf("error-> parts count is less than one");
+        EXIT_APPLICATION(EXIT_SUCCESS);
+    }
+
+    /*
+    ** Exit if unable to get input file size
+    */
+    if (stat(opts->input_file_name, &file_info) != EXIT_SUCCESS) {
+        printf("error-> unable to get input file size (%d)\n", errno);
+        EXIT_APPLICATION(EXIT_SUCCESS);
+    }
+
+    /*
+    ** Get estimate size by dividing input file size by parts count
+    */
+    estimate_size = (double)file_info.st_size / opts->parts_count;
+
+    /*
+    ** Return rounded estimate size as part slice file size
+    */
+    part_slice_file_size = (size_t)ceil(estimate_size);
+    return (part_slice_file_size);
 }
