@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo slice 1.1.0 release 1
+echo slice 1.2.0 release 1
 echo slice test script - open systems environments
 echo ================================================================================
 

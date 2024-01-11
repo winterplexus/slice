@@ -21,6 +21,18 @@ DESCRIPTION
 
   The sequence number begins at 0001.
 
+
+    Daily snapshots of current patched and development versions are available here. Please read about new features and bug fixes before filing corresponding feature requests or bug reports.
+
+    Source code of older versions of R is available here.
+
+    Contributed extension packages
+
+Questions About R
+
+    If you have questions about R like how to download and install the software, or what the license terms are, please read our answers to frequently asked questions before you send an email.
+
+What are R and CRAN?
   The default chunk size is 4096 bytes.
 
   If output file path is not specified then input file path is used in place of
@@ -44,4 +56,4 @@ FLAGS
 
 NOTES
 
-  Copyright (c) 2020-2022 Code Construct Systems (CCS)
+  Copyright (c) 2020-2024 Code Construct Systems (CCS)

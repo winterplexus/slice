@@ -4,7 +4,7 @@
 **  slice - command line options
 **  ----------------------------
 **
-**  copyright (c) 2020-2022 Code Construct Systems (CCS)
+**  copyright (c) 2020-2024 Code Construct Systems (CCS)
 */
 #include "modules.h"
 

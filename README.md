@@ -8,6 +8,6 @@ The application defaults are:
 
 * input file path is used in place of output file path
 
-* chunk size is 1000
+* chunk size is 1000 bytes
 
 The application is written in the C language for both Windows and Linux operating systems.

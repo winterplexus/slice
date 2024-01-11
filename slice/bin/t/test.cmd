@@ -1,6 +1,6 @@
 @echo off
 
-echo.slice 1.1.0 release 1
+echo.slice 1.2.0 release 1
 echo.slice test script - Microsoft Windows OS environment
 echo.================================================================================
 
@@ -59,7 +59,7 @@ slice.exe -i source\test.dat -o destination -p 2 -s -v
 
 echo.
 dir destination
-del destination\* /q
+rem del destination\* /q
 echo.
 
 echo.test case 06: slice source file into 8 parts showing file names

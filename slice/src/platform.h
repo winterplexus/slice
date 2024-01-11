@@ -4,7 +4,7 @@
 **  slice - platform dependencies
 **  -----------------------------
 **
-**  copyright (c) 2020-2022 Code Construct Systems (CCS)
+**  copyright (c) 2020-2024 Code Construct Systems (CCS)
 */
 #ifndef __PLATFORM_H
 #define __PLATFORM_H
