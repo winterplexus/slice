@@ -1,6 +1,6 @@
 @echo off
 
-echo.slice 1.2.0 release 1
+echo.slice 1.3.0 release 1
 echo.slice test script - Microsoft Windows OS environment
 echo.================================================================================
 

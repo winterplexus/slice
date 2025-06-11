@@ -11,49 +11,37 @@ SYNOPSIS
 
 DESCRIPTION
 
-  slice is designed to slice a file into smaller equal sized chunks or into
-  smaller equal sized parts files and the last chunks or parts file size may not
+  slice is designed to slice a file into smaller equal-sized chunks or into 
+  smaller equal-sized parts files and the last chunks or parts file size may not 
   match the first chunks or parts file size.
 
-  Each smaller file sliced from the input file is stored in the outout file path
-  as the input file base name plus a period and a sequence number (4 digits with
+  Each smaller file sliced from the input file is stored in the output file path 
+  as the input file base name plus a period and a sequence number (4 digits with  
   leading zeroes).
 
   The sequence number begins at 0001.
 
-
-    Daily snapshots of current patched and development versions are available here. Please read about new features and bug fixes before filing corresponding feature requests or bug reports.
-
-    Source code of older versions of R is available here.
-
-    Contributed extension packages
-
-Questions About R
-
-    If you have questions about R like how to download and install the software, or what the license terms are, please read our answers to frequently asked questions before you send an email.
-
-What are R and CRAN?
   The default chunk size is 4096 bytes.
 
-  If output file path is not specified then input file path is used in place of
-  output file path.
+  If the output file path is not specified, then the input file path is used in 
+  place of the output file path.
+  
+  If the chunk count is not specified, then the default chunk count is 1024 and
+  the file will be sliced into chunks.
 
-  If chunks count is not specified then default chunks count is 1024 and the
-  file will be sliced into chunks.
-
-  If the parts file size is not a whole number then the parts file size will be
+  If the parts file size is not a whole number, then the parts file size will be 
   rounded up to the next whole number.
 
-FLAGS
+OPTIONS
 
-  -i  [input file name]
-  -o  [output file path]
-  -c  [slice into n chunks (each chunk is 4096 bytes]
-  -p  [slice into n parts]
-  -s  show file names
-  -h  display usage
-  -v  display version
+  -i <input file path>
+  -o <output file path>
+  -c <slice into n chunks (each chunk is 4096 bytes]
+  -p <slice into n parts>
+  -s show file names
+  -v display version
+  -? help
 
 NOTES
 
-  Copyright (c) 2020-2024 Code Construct Systems (CCS)
+  Copyright (c) 2020-2025 Code Construct Systems (CCS)

@@ -4,7 +4,7 @@
 **  slice - command line options
 **  ----------------------------
 **
-**  copyright (c) 2020-2024 Code Construct Systems (CCS)
+**  copyright (c) 2020-2025 Code Construct Systems (CCS)
 */
 #include "modules.h"
 
@@ -50,8 +50,8 @@ static void GetOptionValues(int argc, char **argv, options_t *opts) {
     ** Process each command line argument
     */
     for (i = 1; i < argc; i++) {
-        if (strcmp(argv[i], "-h") == 0) {
-             DisplayUsage();
+        if (strcmp(argv[i], "-?") == 0) {
+            DisplayUsage();
         }
         else if (strcmp(argv[i], "-i") == 0) {
             StoreStringOption(argc, argv, ++i, opts->input_file_name, sizeof(opts->input_file_name) - 1);
@@ -169,14 +169,12 @@ static void DisplayVersion(int argc) {
 */
 static void DisplayUsage(void) {
     printf("usage: %s (options)\n\n", _VERSION_PRODUCT);
-    printf("where (options) include:\n\n");
-    printf("-i  [input file name]\n");
-    printf("-o  [output file path]\n");
-    printf("-c  [slice into n chunks (each chunk is %d bytes]\n", _DEFAULT_CHUNK_SIZE);
-    printf("-p  [slice into n parts]\n");
-    printf("-s  show file names\n");
-    printf("-h  display usage\n");
-    printf("-v  display version\n");
+    printf("options: -i <input file name>\n");
+    printf("         -o <output file path>\n");
+    printf("         -c <slice into n chunks [each chunk is %d bytes]\n", _DEFAULT_CHUNK_SIZE);
+    printf("         -p <slice into n parts>\n");
+    printf("         -s show file names\n");
+    printf("         -? print this usage\n");
 
     /*
     ** Exit application

@@ -4,7 +4,7 @@
 **  slice - version information
 **  ---------------------------
 **
-**  copyright (c) 2020-2024 Code Construct Systems (CCS)
+**  copyright (c) 2020-2025 Code Construct Systems (CCS)
 */
 #ifndef __VERSION_H
 #define __VERSION_H
@@ -23,6 +23,6 @@
 ** Define product and version strings
 */
 #define _VERSION_PRODUCT "slice"
-#define _VERSION_RELEASE "slice 1.2.0 release 1"
+#define _VERSION_RELEASE "slice 1.3.0 release 1"
 
 #endif /* __VERSION_H */
