@@ -4,7 +4,7 @@
 **  slice - slice file functions
 **  ----------------------------
 **
-**  copyright (c) 2020-2024 Code Construct Systems (CCS)
+**  copyright (c) 2020-2025 Code Construct Systems (CCS)
 */
 #ifndef __SLICE_H
 #define __SLICE_H

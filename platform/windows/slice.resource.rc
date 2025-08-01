@@ -79,12 +79,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Code Construct Systems (CCS)"
             VALUE "FileDescription", "Slice text file utility."
-            VALUE "FileVersion", "1.2.0.0"
+            VALUE "FileVersion", "1.3.0.0"
             VALUE "InternalName", "slice"
-            VALUE "LegalCopyright", "Copyright (C) 2020-2024 Code Construct Systems (CCS)"
+            VALUE "LegalCopyright", "copyright (c) 2020-2025 Code Construct Systems (CCS)"
             VALUE "OriginalFilename", "slice.exe"
             VALUE "ProductName", "slice"
-            VALUE "ProductVersion", "1.2.0.0"
+            VALUE "ProductVersion", "1.3.0.0"
         END
     END
     BLOCK "VarFileInfo"

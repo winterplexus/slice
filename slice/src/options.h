@@ -4,7 +4,7 @@
 **  slice - command line options
 **  ----------------------------
 **
-**  copyright (c) 2020-2024 Code Construct Systems (CCS))
+**  copyright (c) 2020-2025 Code Construct Systems (CCS))
 */
 #ifndef __OPTIONS_H
 #define __OPTIONS_H

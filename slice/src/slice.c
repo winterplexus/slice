@@ -4,7 +4,7 @@
 **  slice - slice text file utility functions
 **  -----------------------------------------
 **
-**  copyright (c) 2020-2024 Code Construct Systems (CCS)
+**  copyright (c) 2020-2025 Code Construct Systems (CCS)
 */
 #include "modules.h"
 
