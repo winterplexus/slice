@@ -34,13 +34,12 @@ DESCRIPTION
 
 OPTIONS
 
-  -i <input file path>
+  -i <input file name>
   -o <output file path>
-  -c <slice into n chunks (each chunk is 4096 bytes]
+  -c <slice into n chunks (each chunk is 4096 bytes)>
   -p <slice into n parts>
   -s show file names
-  -v display version
-  -? help
+  -? print this usage
 
 NOTES
 

@@ -23,6 +23,6 @@
 ** Define product and version strings
 */
 #define _VERSION_PRODUCT "slice"
-#define _VERSION_RELEASE "slice 1.3.0 release 1"
+#define _VERSION_RELEASE "slice 1.4.0 release 1"
 
 #endif /* __VERSION_H */

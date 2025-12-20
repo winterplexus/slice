@@ -4,7 +4,7 @@
 #                                                                              #
 # slice utility                                                                #
 #                                                                              #
-# version 1.3.0 release 1                                                      #
+# version 1.4.0 release 1                                                      #
 #                                                                              #
 # copyright (c) 2020-2025 Code Construct Systems (CCS) [CONFIDENTIAL]          #
 #                                                                              #
